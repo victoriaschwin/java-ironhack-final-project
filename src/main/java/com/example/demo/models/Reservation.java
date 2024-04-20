@@ -17,10 +17,10 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Integer reservationId;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="flight_id")
     private Flight flightId;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
     private User userId;
     private Integer numberPassengers;
