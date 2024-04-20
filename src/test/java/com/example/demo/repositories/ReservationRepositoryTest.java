@@ -49,7 +49,9 @@ public class ReservationRepositoryTest {
 
     @AfterEach
     void tearUp(){
+
         reservationRepository.deleteAll(reservations);
+        userRepository.deleteAll(users);
     }
 
     @Test
