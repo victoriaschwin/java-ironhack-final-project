@@ -43,8 +43,8 @@ public class PassengerRepositoryTest {
 
     @AfterEach
     void tearUp(){
-        passengerRepository.deleteAll(passengers);
-        userRepository.deleteAll(users);
+        passengerRepository.deleteAll();
+        userRepository.deleteAll();
     }
     @Test
     void findAllByUserIdShouldReturnTwo(){

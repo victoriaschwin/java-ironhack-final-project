@@ -9,13 +9,13 @@ import lombok.Setter;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "passenger")
+@Table(name = "passengers")
 public class Passenger {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Integer passengerId;
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User userId;
     private String name;
