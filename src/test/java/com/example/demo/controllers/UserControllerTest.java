@@ -11,12 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -70,5 +73,26 @@ public class UserControllerTest {
         mockMvc.perform(get("/users/{id}","14").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(400))
                 .andExpect(status().reason(containsString("not found")));
+    }
+
+    @Test
+    void storeValidCreatedUserTest() throws Exception{
+        User foundUser;
+        User user = new User("patriciaFrern", "password12");
+        String body = objectMapper.writeValueAsString(user);
+
+        MvcResult mvcResult = mockMvc.perform(post("/users")
+                .content(body)
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isCreated()).andReturn();
+
+        Optional<User> savedUser = userRepository.findByUsername(user.getUsername());
+        if(savedUser.isPresent()){
+            foundUser = savedUser.get();
+            assertEquals(user.getUsername(), foundUser.getUsername());
+            assertEquals(user.getPassword(), foundUser.getPassword());
+        }
+
+
     }
 }

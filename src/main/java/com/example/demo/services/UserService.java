@@ -19,4 +19,11 @@ public class UserService {
         return userRepository.findById(userId).orElseThrow( ()->
                 new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
     }
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow( ()->
+                new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found"));
+    }
+    public User addNewUser(User user){
+        return userRepository.save(user);
+    }
 }
