@@ -95,4 +95,14 @@ public class UserControllerTest {
 
 
     }
+
+    @Test
+    void deleteUserTest() throws Exception{
+        long nbResources = userRepository.count();
+        MvcResult mvcResult = mockMvc.perform(delete("/users/{id}","2")
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk()).andReturn();
+
+        assertEquals(userRepository.count(), nbResources-1);
+    }
 }
