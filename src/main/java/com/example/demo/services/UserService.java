@@ -26,4 +26,18 @@ public class UserService {
     public User addNewUser(User user){
         return userRepository.save(user);
     }
+
+    public void updateUser(Integer userId, User user){
+        Optional<User> maybeUser = userRepository.findById(userId);
+        if(maybeUser.isPresent()){
+            User userFound = maybeUser.get();
+            String username = user.getUsername();
+            String password = user.getPassword();
+            userFound.setUsername(username);
+            userFound.setPassword(password);
+            userRepository.save(userFound);
+        }else{
+            throw new UserNotFoundException("User with id " + userId + " not found");
+        }
+    }
 }

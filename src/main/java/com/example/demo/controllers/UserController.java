@@ -35,5 +35,9 @@ public class UserController {
         return userService.addNewUser(user);
     }
 
-
+    @PatchMapping("/users/user/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void updateUser(@PathVariable Integer userId, @RequestBody User user ){
+        userService.updateUser(userId, user);
+    }
 }
