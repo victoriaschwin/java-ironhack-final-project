@@ -80,4 +80,18 @@ public class FlightControllerTest {
         }
     }
 
+    @Test
+    void getFlightByIdPositiveResponseTest() throws Exception{
+        String expectedJson = objectMapper.writeValueAsString(flightRepository.findById(1));
+        mockMvc.perform(get("/flights/{id}", "1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getFlightByIdNegativeResponseTest() throws Exception{
+        mockMvc.perform(get("/flights/{id}","1"))
+                .andExpect(status().is(400))
+                .andExpect(status().reason(containsString("not found")));
+    }
 }

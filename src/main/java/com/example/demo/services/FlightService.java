@@ -60,12 +60,13 @@ public class FlightService {
 
     public void deleteFlight(Integer flightId){
         Optional<Flight> maybeFlight = flightRepository.findById(flightId);
-        if (maybeFlight.isPresent()) {
+        if(maybeFlight.isPresent()){
             flightRepository.delete(maybeFlight.get());
-        }else {
-            throw new UserNotFoundException("Flight with id" + flightId+" not found");
+        }else{
+            throw new UserNotFoundException("Flight with id " + flightId + " not found")
         }
     }
+  
     public Optional<List<Flight>> findAllByDepartureAirport( Airport departureAirport){
         try {
             return flightRepository.findAllByDepartureAirport(departureAirport);

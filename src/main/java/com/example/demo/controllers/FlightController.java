@@ -25,4 +25,22 @@ public class FlightController {
     public Flight addFlight(@RequestBody Flight flight){
         return flightService.addNewFlight(flight);
     }
+
+    @PatchMapping("/flights/flight/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void updateFlight(@PathVariable(name = "id") Integer flightId, @RequestBody Flight flight){
+        flightService.updateFlight(flightId, flight);
+    }
+
+    @DeleteMapping("/flights/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void deleteFlight(@PathVariable(name = "id") Integer flightId){
+        flightService.deleteFlight(flightId);
+    }
+
+    @GetMapping("/flights/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Flight getFlightById(@PathVariable(name = "id") Integer flightId){
+        return  flightService.getFlightById(flightId);
+    }
 }
