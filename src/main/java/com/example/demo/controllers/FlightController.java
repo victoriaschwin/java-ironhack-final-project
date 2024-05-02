@@ -26,7 +26,7 @@ public class FlightController {
         return flightService.addNewFlight(flight);
     }
 
-    @PatchMapping("/flights/flight/{id}")
+    @PatchMapping("/flights/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void updateFlight(@PathVariable(name = "id") Integer flightId, @RequestBody Flight flight){
         flightService.updateFlight(flightId, flight);
@@ -42,5 +42,11 @@ public class FlightController {
     @ResponseStatus(HttpStatus.OK)
     public Flight getFlightById(@PathVariable(name = "id") Integer flightId){
         return  flightService.getFlightById(flightId);
+    }
+
+    @GetMapping("/flights/byPrice")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Flight> getAllFlightsByPrice(@RequestParam(name = "price") double price){
+        return flightService.getAllFlightsByPrice(price);
     }
 }
