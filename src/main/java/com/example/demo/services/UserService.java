@@ -40,4 +40,13 @@ public class UserService {
             throw new UserNotFoundException("User with id " + userId + " not found");
         }
     }
+
+    public void deleteUser(Integer userId){
+        Optional<User> maybeUser = userRepository.findById(userId);
+        if(maybeUser.isPresent()){
+            userRepository.delete(maybeUser.get());
+        }else{
+            throw new UserNotFoundException("User with id " + userId + " not found");
+        }
+    }
 }
