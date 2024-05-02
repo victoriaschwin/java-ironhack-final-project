@@ -41,7 +41,7 @@ public class UserRepositoryTest {
 
     @Test
     void userByIdFalse(){
-        Optional<User> maybeUser = userRepository.findById(10);
+        Optional<User> maybeUser = userRepository.findById(100);
         assertFalse(maybeUser.isPresent());
     }
 }
