@@ -5,7 +5,9 @@ import com.example.demo.models.Flight;
 import com.example.demo.models.User;
 import com.example.demo.repositories.FlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.List;
@@ -16,12 +18,9 @@ public class FlightService {
     @Autowired
     private FlightRepository flightRepository;
 
-    public Optional<Flight> findById(Integer flightId){
-        try{
-            return flightRepository.findById(flightId);
-        } catch (Exception e) {
-            throw new RuntimeException("Error finding flight by ID: " + flightId, e);
-        }
+    public Flight getFlightById(Integer flightId){
+            return flightRepository.findById(flightId).orElseThrow( ()->
+                    new ResponseStatusException(HttpStatus.BAD_REQUEST, "Flight not found"));
     }
 
     public Optional<List<Flight>> findAllByArrivalAirport(Airport arrivalAirport){
