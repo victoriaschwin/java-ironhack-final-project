@@ -1,5 +1,7 @@
 package com.example.demo.services;
 
+import com.example.demo.exceptions.UserNotFoundException;
+import com.example.demo.models.Airline;
 import com.example.demo.models.Airport;
 import com.example.demo.models.Flight;
 import com.example.demo.models.User;
@@ -32,6 +34,29 @@ public class FlightService {
         }
     }
 
+    public void updateFlight(Integer flightId, Flight flight){
+        Optional<Flight> maybeFlight = flightRepository.findById(flightId);
+        if (maybeFlight.isPresent()){
+            Flight flightFound = maybeFlight.get();
+            Airline airline = flightFound.getAirline();
+            Airport departureAirport = flight.getDepartureAirport();
+            Airport arrivalAirport = flight.getArrivalAirport();
+            Instant departureTime = flight.getDepartureTime();
+            Instant arrivalTime = flight.getArrivalTime();
+            double price = flight.getPrice();
+
+            flightFound.setAirline(airline);
+            flightFound.setDepartureAirport(departureAirport);
+            flightFound.setArrivalAirport(arrivalAirport);
+            flightFound.setDepartureTime(departureTime);
+            flightFound.setArrivalTime(arrivalTime);
+            flightFound.setPrice(price);
+
+            flightRepository.save(flightFound);
+        }else {
+            throw new UserNotFoundException("Flight with id"+ flightId +"not found");
+        }
+    }
     public Optional<List<Flight>> findAllByDepartureAirport( Airport departureAirport){
         try {
             return flightRepository.findAllByDepartureAirport(departureAirport);
