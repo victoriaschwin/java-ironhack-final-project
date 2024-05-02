@@ -1,5 +1,6 @@
 package com.example.demo.repositories;
 
+import com.example.demo.models.Airline;
 import com.example.demo.models.Airport;
 import com.example.demo.models.Flight;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +13,7 @@ import java.util.Optional;
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Integer> {
     Optional<Flight> findById(Integer flightId);
+    Optional<Flight> findByAirline(Airline airline);
     Optional<List<Flight>> findAllByArrivalAirport(Airport arrivalAirport);
     Optional<List<Flight>> findAllByDepartureAirport(Airport departureAirport);
     Optional<List<Flight>> findAllByArrivalTime(Instant arrivalTime);

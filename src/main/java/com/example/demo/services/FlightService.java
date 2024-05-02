@@ -23,6 +23,7 @@ public class FlightService {
                     new ResponseStatusException(HttpStatus.BAD_REQUEST, "Flight not found"));
     }
 
+    public Flight addNewFlight(Flight flight){ return flightRepository.save(flight);}
     public Optional<List<Flight>> findAllByArrivalAirport(Airport arrivalAirport){
         try{
             return flightRepository.findAllByArrivalAirport(arrivalAirport);

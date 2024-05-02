@@ -19,6 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -59,6 +60,24 @@ public class FlightControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(expectedJson));
+    }
+
+    @Test
+    void storeValidCreatedFlightTest() throws Exception{
+        Flight flightFound;
+        Flight flight = new Flight(Airline.BritishAirways,Airport.HND,Airport.EWR,Instant.now(),Instant.parse("2024-10-10T00:00:00Z"),100);
+        String body = objectMapper.writeValueAsString(flight);
+
+        MvcResult mvcResult = mockMvc.perform(post("/flights")
+                .content(body)
+                .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
+
+        Optional<Flight> savedFlight = flightRepository.findByAirline(flight.getAirline());
+        if (savedFlight.isPresent()){
+            flightFound = savedFlight.get();
+            assertEquals(flight.getPrice(), flightFound.getPrice());
+            assertEquals(flight.getAirline(), flightFound.getAirline());
+        }
     }
 
 }
