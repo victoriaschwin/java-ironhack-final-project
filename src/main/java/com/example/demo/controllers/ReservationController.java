@@ -6,11 +6,9 @@ import com.example.demo.repositories.ReservationRepository;
 import com.example.demo.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -28,5 +26,11 @@ public class ReservationController {
     @ResponseStatus(HttpStatus.OK)
     public Reservation getReservationById(@PathVariable(name = "id") Integer reservationId){
         return  reservationService.getReservationById(reservationId);
+    }
+
+    @GetMapping("/flights/byBookingDate")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Reservation> getAllReservationsByBookingDate(@RequestParam(name = "bookingDate")Instant bookingDate){
+        return reservationService.getAllReservationsByBookingDate(bookingDate);
     }
 }

@@ -40,8 +40,8 @@ public class ReservationControllerTest {
         User userOne = new User("userTest", "password320");
         User userTwo = new User("userTwo", "password12");
         Flight flightOne = new Flight(Airline.Lufthansa, Airport.HND,Airport.DXB, Instant.parse("2024-05-12T12:30:00Z"),Instant.parse("2024-05-12T23:30:00Z"),78);
-        Reservation reservationOne = new Reservation(flightOne,userOne,2, flightOne.getPrice()*2, Instant.now());
-        Reservation reservationTwo = new Reservation(flightOne,userTwo,1, flightOne.getPrice(), Instant.now());
+        Reservation reservationOne = new Reservation(flightOne,userOne,2, flightOne.getPrice()*2, Instant.parse("2024-05-12T23:30:00Z"));
+        Reservation reservationTwo = new Reservation(flightOne,userTwo,1, flightOne.getPrice(), Instant.parse("2024-05-12T23:30:00Z"));
 
         reservationRepository.saveAll(List.of(reservationOne,reservationTwo));
     }
@@ -80,4 +80,22 @@ public class ReservationControllerTest {
                 .andExpect(status().reason(containsString("not found")));
     }
 
+    @Test
+    void getAllReservationsByBookingDatePositiveResponseTest() throws Exception{
+        String expectedJson = objectMapper.writeValueAsString(reservationRepository.findByBookingDate(Instant.parse("2024-05-12T23:30:00Z")));
+        mockMvc.perform(get("/reservations/byBookingDate")
+                        .param("bookingDate","2024-05-12T23:30:00Z")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getAllFlightsByPriceNegativeResponseTest() throws Exception{
+        mockMvc.perform(get("/reservations/byBookingDate")
+                        .param("bookingDate","2024-05-12T23:30:00Z")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(400))
+                .andExpect(status().reason(containsString("not found")));
+    }
 }
