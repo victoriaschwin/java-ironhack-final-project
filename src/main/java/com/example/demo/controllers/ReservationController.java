@@ -28,15 +28,21 @@ public class ReservationController {
         return  reservationService.getReservationById(reservationId);
     }
 
-    @GetMapping("/flights/byBookingDate")
+    @GetMapping("/reservations/byBookingDate")
     @ResponseStatus(HttpStatus.OK)
     public List<Reservation> getAllReservationsByBookingDate(@RequestParam(name = "bookingDate")Instant bookingDate){
         return reservationService.getAllReservationsByBookingDate(bookingDate);
     }
 
-    @PostMapping("/reservation")
+    @PostMapping("/reservations")
     @ResponseStatus(HttpStatus.CREATED)
     public Reservation addReservation(@RequestBody Reservation reservation){
         return reservationService.addNewReservation(reservation);
+    }
+
+    @PatchMapping("/reservations/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void updateReservation(@PathVariable(name = "id") Integer reservationId, @RequestBody Reservation reservation){
+        reservationService.updateReservation(reservationId, reservation);
     }
 }
