@@ -155,4 +155,23 @@ public class FlightControllerTest {
                 .andExpect(status().is(400))
                 .andExpect(status().reason(containsString("not found")));
     }
+
+    @Test
+    void getAllFlightsByArrivalTimePositiveResponseTest() throws Exception{
+        String expectedJson = objectMapper.writeValueAsString(flightRepository.findAllByArrivalTime(Instant.parse("2020-10-10T17:00:20Z")));
+        mockMvc.perform(get("/flights/byArrivalTime")
+                        .param("arrivalTime","2020-10-10T17:00:20Z")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getAllFlightsByArrivalTimeNegativeResponseTest() throws Exception{
+        mockMvc.perform(get("/flights/byArrivalTime")
+                        .param("arrivalTime","1998-10-10T17:00:20Z")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(400))
+                .andExpect(status().reason(containsString("not found")));
+    }
 }
