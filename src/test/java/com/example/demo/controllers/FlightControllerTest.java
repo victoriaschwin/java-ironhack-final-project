@@ -100,7 +100,7 @@ public class FlightControllerTest {
     }
 
     @Test
-    void getAllFlightByPricePositiveResponseTest() throws Exception{
+    void getAllFlightsByPricePositiveResponseTest() throws Exception{
         String expectedJson = objectMapper.writeValueAsString(flightRepository.findAllByPrice(100));
         mockMvc.perform(get("/flights/byPrice")
                         .param("price","100")
@@ -110,11 +110,30 @@ public class FlightControllerTest {
     }
 
     @Test
-    void getAllFlightByPriceNegativeResponseTest() throws Exception{
+    void getAllFlightsByPriceNegativeResponseTest() throws Exception{
         mockMvc.perform(get("/flights/byPrice")
                         .param("price","100")
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().is(400))
                         .andExpect(status().reason(containsString("not found")));
+    }
+
+    @Test
+    void getAllFlightsByArrivalAirportPositiveResponseTest() throws Exception{
+        String expectedJson = objectMapper.writeValueAsString(flightRepository.findAllByArrivalAirport(Airport.EWR));
+        mockMvc.perform(get("/flights/byArrivalAirport")
+                        .param("arrivalAirport","EWR")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getAllFlightsByArrivalAirportNegativeResponseTest() throws Exception{
+        mockMvc.perform(get("/flights/byArrivalAirport")
+                        .param("arrivalAirport","JFK")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(400))
+                .andExpect(status().reason(containsString("not found")));
     }
 }

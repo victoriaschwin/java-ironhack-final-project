@@ -71,4 +71,9 @@ public class FlightService {
         return flightRepository.findAllByPrice(price).orElseThrow( ()->
                 new ResponseStatusException(HttpStatus.BAD_REQUEST, "Flight with " +price + " not found"));
     }
+
+    public List<Flight> getAllFlightsByArrivalAirport(Airport airport){
+        return flightRepository.findAllByArrivalAirport(airport).orElseThrow( ()->
+                new ResponseStatusException(HttpStatus.BAD_REQUEST, "Flight with " +airport + " not found"));
+    }
 }
