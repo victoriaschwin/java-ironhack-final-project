@@ -17,6 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.time.Instant;
 import java.util.List;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -60,4 +61,23 @@ public class ReservationControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(expectedJson));
     }
+
+    @Test
+    void getReservationByIdPositiveResponseTest() throws Exception{
+        String expectedJson = objectMapper.writeValueAsString(reservationRepository.findById(1));
+        mockMvc.perform(get("/reservations/{id}", "1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+
+    @Test
+    void getReservationByIdNegativeResponseTest() throws Exception{
+        mockMvc.perform(get("/reservations/{id}","1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(400))
+                .andExpect(status().reason(containsString("not found")));
+    }
+
 }
