@@ -51,6 +51,15 @@ public class ReservationService {
             throw new UserNotFoundException("Reservation with id"+ reservationId +"not found");
         }
     }
+
+    public void deleteReservation(Integer reservationId){
+        Optional<Reservation> maybeReservation = reservationRepository.findById(reservationId);
+        if(maybeReservation.isPresent()){
+            reservationRepository.delete(maybeReservation.get());
+        }else{
+            throw new UserNotFoundException("Reservation with id " + reservationId + " not found");
+        }
+    }
 }
 
 
