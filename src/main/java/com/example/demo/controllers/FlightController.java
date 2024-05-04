@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -61,5 +62,11 @@ public class FlightController {
     @ResponseStatus(HttpStatus.OK)
     public List<Flight> getAllFlightsByDepartureAirport(@RequestParam(name = "departureAirport")Airport airport){
         return flightService.getAllFlightsByDepartureAirport(airport);
+    }
+
+    @GetMapping("/flights/byArrivalTime")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Flight> getAllFlightsByArrivalTime(@RequestParam(name = "arrivalTime")Instant arrivalTime){
+        return flightService.getAllFlightsByArrivalTime(arrivalTime);
     }
 }
