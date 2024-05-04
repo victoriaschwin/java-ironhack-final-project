@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 
+import com.example.demo.models.Airport;
 import com.example.demo.models.Flight;
 import com.example.demo.models.Reservation;
 import com.example.demo.repositories.ReservationRepository;
@@ -11,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReservationService {
@@ -26,6 +28,9 @@ public class ReservationService {
         return reservationRepository.findByBookingDate(bookingDate).orElseThrow( ()->
                 new ResponseStatusException(HttpStatus.BAD_REQUEST, "Reservation with " +bookingDate + " not found"));
     }
+
+    public Reservation addNewReservation(Reservation reservation){ return reservationRepository.save(reservation);}
+
 }
 
 

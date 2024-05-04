@@ -11,14 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -97,5 +101,25 @@ public class ReservationControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(400))
                 .andExpect(status().reason(containsString("not found")));
+    }
+
+    @Test
+    void storeValidCreatedReservationTest() throws Exception{
+        Reservation reservationFound;
+        User user = new User("user", "password");
+        Flight flight = new Flight(Airline.BritishAirways,Airport.HND,Airport.EWR,Instant.now(),Instant.parse("2024-10-10T00:00:00Z"),100);
+        Reservation reservation = new Reservation(flight,user,1,flight.getPrice(),Instant.parse("2024-11-10T00:00:00Z"));
+        String body = objectMapper.writeValueAsString(reservation);
+
+        MvcResult mvcResult = mockMvc.perform(post("/reservations")
+                .content(body)
+                .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
+
+        Optional<List<Reservation>> savedReservations = reservationRepository.findByBookingDate(Instant.parse("2024-11-10T00:00:00Z"));
+        if (savedReservations.isPresent()){
+            reservationFound = savedReservations.get().get(0);
+            assertEquals(reservation.getNumberPassengers(), reservationFound.getNumberPassengers());
+            assertEquals(reservation.getBookingDate(), reservationFound.getBookingDate());
+        }
     }
 }
