@@ -38,7 +38,7 @@ public class FlightService {
         Optional<Flight> maybeFlight = flightRepository.findById(flightId);
         if (maybeFlight.isPresent()){
             Flight flightFound = maybeFlight.get();
-            Airline airline = flightFound.getAirline();
+            Airline airline = flight.getAirline();
             Airport departureAirport = flight.getDepartureAirport();
             Airport arrivalAirport = flight.getArrivalAirport();
             Instant departureTime = flight.getDepartureTime();

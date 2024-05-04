@@ -1,9 +1,8 @@
 package com.example.demo.services;
 
 
-import com.example.demo.models.Airport;
-import com.example.demo.models.Flight;
-import com.example.demo.models.Reservation;
+import com.example.demo.exceptions.UserNotFoundException;
+import com.example.demo.models.*;
 import com.example.demo.repositories.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +30,27 @@ public class ReservationService {
 
     public Reservation addNewReservation(Reservation reservation){ return reservationRepository.save(reservation);}
 
+    public void updateReservation(Integer reservationId, Reservation reservation){
+        Optional<Reservation> maybeReservation = reservationRepository.findById(reservationId);
+        if (maybeReservation.isPresent()){
+            Reservation reservationFound = maybeReservation.get();
+            Flight flight = reservation.getFlightId();
+            User user = reservation.getUserId();
+            Integer numberPassengers = reservation.getNumberPassengers();
+            double pricePaid = reservation.getPricePaid();
+            Instant bookingDate = reservation.getBookingDate();
+
+            reservationFound.setFlightId(flight);
+            reservationFound.setUserId(user);
+            reservationFound.setNumberPassengers(numberPassengers);
+            reservationFound.setPricePaid(pricePaid);
+            reservationFound.setBookingDate(bookingDate);
+
+            reservationRepository.save(reservationFound);
+        }else {
+            throw new UserNotFoundException("Reservation with id"+ reservationId +"not found");
+        }
+    }
 }
 
 
