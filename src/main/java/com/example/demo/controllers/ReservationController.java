@@ -33,4 +33,10 @@ public class ReservationController {
     public List<Reservation> getAllReservationsByBookingDate(@RequestParam(name = "bookingDate")Instant bookingDate){
         return reservationService.getAllReservationsByBookingDate(bookingDate);
     }
+
+    @PostMapping("/reservation")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Reservation addReservation(@RequestBody Reservation reservation){
+        return reservationService.addNewReservation(reservation);
+    }
 }
