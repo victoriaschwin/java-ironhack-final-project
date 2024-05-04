@@ -45,4 +45,11 @@ public class ReservationController {
     public void updateReservation(@PathVariable(name = "id") Integer reservationId, @RequestBody Reservation reservation){
         reservationService.updateReservation(reservationId, reservation);
     }
+
+    @DeleteMapping("/reservations/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void deleteReservation(@PathVariable(name = "id") Integer reservationId){
+        reservationService.deleteReservation(reservationId);
+    }
+
 }
