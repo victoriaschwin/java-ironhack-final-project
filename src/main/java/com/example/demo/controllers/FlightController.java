@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.models.Airport;
 import com.example.demo.models.Flight;
 import com.example.demo.repositories.FlightRepository;
 import com.example.demo.services.FlightService;
@@ -48,5 +49,11 @@ public class FlightController {
     @ResponseStatus(HttpStatus.OK)
     public List<Flight> getAllFlightsByPrice(@RequestParam(name = "price") double price){
         return flightService.getAllFlightsByPrice(price);
+    }
+
+    @GetMapping("/flights/byArrivalAirport")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Flight> getAllFlightsByArrivalAirport(@RequestParam(name = "arrivalAirport")Airport airport){
+        return flightService.getAllFlightsByArrivalAirport(airport);
     }
 }
