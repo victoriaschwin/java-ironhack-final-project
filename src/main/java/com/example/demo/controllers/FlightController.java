@@ -69,4 +69,10 @@ public class FlightController {
     public List<Flight> getAllFlightsByArrivalTime(@RequestParam(name = "arrivalTime")Instant arrivalTime){
         return flightService.getAllFlightsByArrivalTime(arrivalTime);
     }
+
+    @GetMapping("/flights/byDepartureTime")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Flight> getAllFlightsByDepartureTime(@RequestParam(name = "departureTime")Instant departureTime){
+        return flightService.getAllFlightsByDepartureTime(departureTime);
+    }
 }

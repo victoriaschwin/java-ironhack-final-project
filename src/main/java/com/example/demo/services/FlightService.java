@@ -86,5 +86,10 @@ public class FlightService {
         return flightRepository.findAllByArrivalTime(arrivalTime).orElseThrow( ()->
                 new ResponseStatusException(HttpStatus.BAD_REQUEST, "Flight with " +arrivalTime + " not found"));
     }
+
+    public List<Flight> getAllFlightsByDepartureTime(Instant departureTime){
+        return flightRepository.findAllByDepartureTime(departureTime).orElseThrow( ()->
+                new ResponseStatusException(HttpStatus.BAD_REQUEST, "Flight with " +departureTime + " not found"));
+    }
 }
 

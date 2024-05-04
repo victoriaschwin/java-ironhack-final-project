@@ -174,4 +174,23 @@ public class FlightControllerTest {
                 .andExpect(status().is(400))
                 .andExpect(status().reason(containsString("not found")));
     }
+
+    @Test
+    void getAllFlightsByDepartureTimePositiveResponseTest() throws Exception{
+        String expectedJson = objectMapper.writeValueAsString(flightRepository.findAllByDepartureTime(Instant.parse("2020-10-10T10:00:20Z")));
+        mockMvc.perform(get("/flights/byDepartureTime")
+                        .param("departureTime","2020-10-10T17:00:20Z")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getAllFlightsByDepartureTimeNegativeResponseTest() throws Exception{
+        mockMvc.perform(get("/flights/byDepartureTime")
+                        .param("departureTime","1998-10-10T17:00:20Z")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(400))
+                .andExpect(status().reason(containsString("not found")));
+    }
 }
