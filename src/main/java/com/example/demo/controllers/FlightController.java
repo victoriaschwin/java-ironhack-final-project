@@ -56,4 +56,10 @@ public class FlightController {
     public List<Flight> getAllFlightsByArrivalAirport(@RequestParam(name = "arrivalAirport")Airport airport){
         return flightService.getAllFlightsByArrivalAirport(airport);
     }
+
+    @GetMapping("/flights/byDepartureAirport")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Flight> getAllFlightsByDepartureAirport(@RequestParam(name = "departureAirport")Airport airport){
+        return flightService.getAllFlightsByDepartureAirport(airport);
+    }
 }

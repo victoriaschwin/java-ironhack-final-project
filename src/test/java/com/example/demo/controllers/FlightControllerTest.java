@@ -136,4 +136,23 @@ public class FlightControllerTest {
                 .andExpect(status().is(400))
                 .andExpect(status().reason(containsString("not found")));
     }
+
+    @Test
+    void getAllFlightsByDepartureAirportPositiveResponseTest() throws Exception{
+        String expectedJson = objectMapper.writeValueAsString(flightRepository.findAllByDepartureAirport(Airport.ATL));
+        mockMvc.perform(get("/flights/byDepartureAirport")
+                        .param("departureAirport","ATL")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getAllFlightsByDepartureAirportNegativeResponseTest() throws Exception{
+        mockMvc.perform(get("/flights/byDepartureAirport")
+                        .param("departureAirport","JFK")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(400))
+                .andExpect(status().reason(containsString("not found")));
+    }
 }
