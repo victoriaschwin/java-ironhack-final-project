@@ -1,9 +1,10 @@
-package com.example.demo.controllers;
+package com.example.demo.controllers.implementations;
 
+import com.example.demo.controllers.interfaces.IFlightController;
 import com.example.demo.models.Airport;
 import com.example.demo.models.Flight;
 import com.example.demo.repositories.FlightRepository;
-import com.example.demo.services.FlightService;
+import com.example.demo.services.implementations.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,8 @@ import java.time.Instant;
 import java.util.List;
 
 @RestController
-public class FlightController {
+@RequestMapping("/api")
+public class FlightController implements IFlightController {
     @Autowired
     private FlightRepository flightRepository;
     @Autowired

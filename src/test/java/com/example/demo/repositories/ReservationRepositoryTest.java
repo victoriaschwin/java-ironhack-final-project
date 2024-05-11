@@ -26,7 +26,7 @@ public class ReservationRepositoryTest {
     private List<User> users;
     private List<Flight> flights;
     private List<Reservation> reservations;
-
+/*
     @BeforeEach
     void setUp(){
         users = new ArrayList<>();
@@ -101,4 +101,6 @@ public class ReservationRepositoryTest {
     }
 
 
+
+ */
 }

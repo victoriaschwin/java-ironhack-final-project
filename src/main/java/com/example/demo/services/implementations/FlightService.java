@@ -1,11 +1,11 @@
-package com.example.demo.services;
+package com.example.demo.services.implementations;
 
 import com.example.demo.exceptions.UserNotFoundException;
 import com.example.demo.models.Airline;
 import com.example.demo.models.Airport;
 import com.example.demo.models.Flight;
-import com.example.demo.models.User;
 import com.example.demo.repositories.FlightRepository;
+import com.example.demo.services.interfaces.IFlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class FlightService {
+public class FlightService implements IFlightService {
     @Autowired
     private FlightRepository flightRepository;
 
@@ -26,13 +26,7 @@ public class FlightService {
     }
 
     public Flight addNewFlight(Flight flight){ return flightRepository.save(flight);}
-    public Optional<List<Flight>> findAllByArrivalAirport(Airport arrivalAirport){
-        try{
-            return flightRepository.findAllByArrivalAirport(arrivalAirport);
-        }catch (Exception e){
-            throw new RuntimeException("Error finding flight by Airport of Arrival: " + arrivalAirport, e);
-        }
-    }
+
 
     public void updateFlight(Integer flightId, Flight flight){
         Optional<Flight> maybeFlight = flightRepository.findById(flightId);

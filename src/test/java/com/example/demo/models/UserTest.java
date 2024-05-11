@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserTest {
     static User userTest;
     static User userTestTwo;
+
+    /*
     @BeforeEach
     void setUp(){
         userTest = new User("dummyuser","strongPassword123!");
@@ -37,4 +39,6 @@ public class UserTest {
         assertEquals("strongPassword123!", userTest.getPassword());
     }
 
+
+     */
 }

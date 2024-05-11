@@ -1,9 +1,10 @@
-package com.example.demo.services;
+package com.example.demo.services.implementations;
 
 
 import com.example.demo.exceptions.UserNotFoundException;
 import com.example.demo.models.*;
 import com.example.demo.repositories.ReservationRepository;
+import com.example.demo.services.interfaces.IReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ReservationService {
+public class ReservationService implements IReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
 

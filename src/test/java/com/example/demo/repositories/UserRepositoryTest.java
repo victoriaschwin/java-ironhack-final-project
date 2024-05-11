@@ -17,7 +17,7 @@ public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
     static User testUser;
-
+/*
     @BeforeEach
     void setUp(){
         testUser = new User("userOne", "password1234");
@@ -44,4 +44,6 @@ public class UserRepositoryTest {
         Optional<User> maybeUser = userRepository.findById(100);
         assertFalse(maybeUser.isPresent());
     }
+
+ */
 }

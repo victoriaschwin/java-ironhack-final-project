@@ -4,7 +4,7 @@ import com.example.demo.models.Airline;
 import com.example.demo.models.Airport;
 import com.example.demo.models.Flight;
 import com.example.demo.repositories.FlightRepository;
-import com.example.demo.services.FlightService;
+import com.example.demo.services.implementations.FlightService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

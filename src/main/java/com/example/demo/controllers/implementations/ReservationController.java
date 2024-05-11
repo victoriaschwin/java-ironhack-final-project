@@ -1,9 +1,9 @@
-package com.example.demo.controllers;
+package com.example.demo.controllers.implementations;
 
-import com.example.demo.models.Flight;
+import com.example.demo.controllers.interfaces.IReservationController;
 import com.example.demo.models.Reservation;
 import com.example.demo.repositories.ReservationRepository;
-import com.example.demo.services.ReservationService;
+import com.example.demo.services.implementations.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,8 @@ import java.time.Instant;
 import java.util.List;
 
 @RestController
-public class ReservationController {
+@RequestMapping("/api")
+public class ReservationController implements IReservationController {
     @Autowired
     private ReservationRepository reservationRepository;
     @Autowired
@@ -30,8 +31,10 @@ public class ReservationController {
 
     @GetMapping("/reservations/byBookingDate")
     @ResponseStatus(HttpStatus.OK)
-    public List<Reservation> getAllReservationsByBookingDate(@RequestParam(name = "bookingDate")Instant bookingDate){
-        return reservationService.getAllReservationsByBookingDate(bookingDate);
+    public List<Reservation> getAllReservationsByBookingDate(@RequestParam(name = "bookingDate")String bookingDate){
+        //TODO handle the time format to be accepted to parse
+        String validDate = bookingDate;
+        return reservationService.getAllReservationsByBookingDate(Instant.parse(validDate));
     }
 
     @PostMapping("/reservations")
