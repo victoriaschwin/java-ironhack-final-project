@@ -47,6 +47,7 @@ public class SecurityConfig {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeHttpRequests((requests) -> requests
+                .requestMatchers(AUTH_WHITE_LIST).permitAll()
                 .requestMatchers("/api/login").permitAll()
                 .requestMatchers(GET, "/api/users").hasAnyAuthority("ROLE_ADMIN")
                 .requestMatchers(GET, "/api/users/{id}").hasAnyAuthority("ROLE_ADMIN")
@@ -77,4 +78,12 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    private static final String[] AUTH_WHITE_LIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/v2/api-docs/**",
+            "/swagger-resources/**",
+            "/swagger-ui-custom.html"
+    };
 }
